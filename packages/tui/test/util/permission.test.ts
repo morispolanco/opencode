@@ -21,3 +21,11 @@ test("preserves permission roots and self-contained metadata", () => {
     },
   )
 })
+
+test("memory writes show the full note and how to reject", () => {
+  const note = "Guardar en memoria (global): " + "x".repeat(900)
+  const result = permissionPresentation({ action: "memory_write", resources: [note] })
+  expect(result.title).toBe("Change personal memory")
+  expect(result.lines[0]).toBe("Select Reject to keep your memory unchanged.")
+  expect(result.lines[1]).toBe(`- ${note}`)
+})
