@@ -59,6 +59,16 @@ export const Plugin = define({
             source: { type: "tool", messageID: context.messageID, id: context.id },
           })
 
+    // The default agents allow every action that has no rule, so an unmarked "memory_write" would pass without a
+    // prompt. Turn an allow into an ask for memory writes. A deny stays a deny, and { confirmWrites: false } opts out.
+    if (ctx.options.confirmWrites !== false) {
+      yield* ctx.permission.hook("evaluate", (event) =>
+        Effect.sync(() => {
+          if (event.action === "memory_write" && event.effect === "allow") event.effect = "ask"
+        }),
+      )
+    }
+
     yield* ctx.tool.transform((editor) => {
       editor.add({
         name: "memory_save",
