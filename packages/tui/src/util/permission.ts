@@ -128,6 +128,15 @@ export function permissionPresentation(
     }
   }
 
+  if (action === "memory_write") {
+    // Show exactly what would change in the memory, in full, and how to keep it unchanged.
+    return {
+      icon: "✎",
+      title: "Change personal memory",
+      lines: ["Select Reject to keep your memory unchanged.", ...resources.map((item) => `- ${item}`)],
+    }
+  }
+
   if (action === "doom_loop") {
     return {
       icon: "⟳",
