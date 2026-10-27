@@ -42,16 +42,20 @@ const makeKv = () => {
   }
 }
 
-const start = Effect.fnUntraced(function* (kv: ReturnType<typeof makeKv>, dir: string, approve = true) {
+const start = Effect.fnUntraced(function* (kv: ReturnType<typeof makeKv>, dir: string, approve = true, options: Record<string, unknown> = {}) {
   const tools = new Map<string, any>()
   const asked: string[] = []
   let contextHook: ((e: SessionContext) => Effect.Effect<void>) | undefined
+  let evaluateHook: ((e: any) => Effect.Effect<void>) | undefined
   yield* MemoryPlugin.Plugin.effect({
     ...host({
       location: loc(dir),
       storage: kv.storage as any,
       permission: {
-        hook: () => Effect.succeed({ dispose: Effect.void }),
+        hook: (name: string, cb: any) => {
+          if (name === "evaluate") evaluateHook = cb
+          return Effect.succeed({ dispose: Effect.void })
+        },
         assert: (input: any) => {
           asked.push(input.resources[0])
           return approve ? Effect.void : Effect.fail(new Tool.Error({ message: "rejected" }))
@@ -73,7 +77,7 @@ const start = Effect.fnUntraced(function* (kv: ReturnType<typeof makeKv>, dir: s
         },
       } as any,
     }),
-    options: {},
+    options,
   })
   const call = (name: string, input: any) =>
     tools.get(name).execute(input, {
@@ -96,10 +100,33 @@ const start = Effect.fnUntraced(function* (kv: ReturnType<typeof makeKv>, dir: s
     yield* contextHook!(event)
     return event.system.map((s) => s.text).join("\n")
   })
-  return { tools, call, inject, asked }
+  return { tools, call, inject, asked, evaluate: () => evaluateHook }
 })
 
 describe("memory plugin", () => {
+  it.effect("turns an allow into an ask for memory writes only (default agents allow every unmarked action)", () =>
+    Effect.gen(function* () {
+      const m = yield* start(makeKv(), "/a")
+      const run = (action: string, effect: string) =>
+        Effect.gen(function* () {
+          const event: any = { action, effect, resources: ["x"] }
+          yield* m.evaluate()!(event)
+          return event.effect
+        })
+      expect(yield* run("memory_write", "allow")).toBe("ask")
+      expect(yield* run("memory_write", "deny")).toBe("deny")
+      expect(yield* run("memory_write", "ask")).toBe("ask")
+      expect(yield* run("read", "allow")).toBe("allow")
+    }),
+  )
+
+  it.effect("confirmWrites:false registers no hook", () =>
+    Effect.gen(function* () {
+      const m = yield* start(makeKv(), "/a", true, { confirmWrites: false })
+      expect(m.evaluate()).toBeUndefined()
+    }),
+  )
+
   it.effect("registers the five tools and a context hook", () =>
     Effect.gen(function* () {
       const m = yield* start(makeKv(), "/a")
