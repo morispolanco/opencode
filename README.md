@@ -1,15 +1,15 @@
-# Asistente con memoria · versión de prueba 0.1-rc.1
+# Asistente con memoria · versión de prueba 0.7
 
-Esta variante de OpenCode incorpora memoria global y por proyecto y un perfil de asistente en español. Es una versión de prueba; no está certificada para una instalación nueva de Windows.
+Esta variante de OpenCode incorpora memoria global y por proyecto y un perfil de asistente en español. Es una versión de prueba: la instalación limpia está comprobada en Linux x64 y queda pendiente una ejecución completa en Windows real.
 
 ## Código fuente del asistente (comando `gracian`)
 
 El código fuente completo del asistente de Moris (instalador de Windows, comando `gracian`, conexión con Telegram y el Oráculo manual y arte de prudencia de Baltasar Gracián) está publicado en [`asistente/`](asistente/), con su propia guía en [`asistente/README.md`](asistente/README.md).
 
-Para instalar esta variante, no uses el instalador de opencode.ai ni los comandos del README original que aparecen más abajo. Descarga el ZIP de esta publicación, extráelo y abre asistente/Instalar.cmd:
-https://github.com/morispolanco/opencode/releases/tag/v0.1.0-rc.1
+Para instalar esta variante, no uses el instalador de opencode.ai ni los comandos del README original que aparecen más abajo. Descarga `Instalar-Gracian.cmd` de la publicación v0.7.0 y ejecútalo: en un solo paso instala el asistente y deja registrado el comando `gracian` (si faltan Bun 1.4.4 o Git, los instala desde sus sitios oficiales):
+https://github.com/morispolanco/opencode/releases/tag/v0.7.0
 
-Requiere Windows 11 de 64 bits, Git y Bun 1.4.4. Utiliza tu propia clave de OpenRouter con un límite de gasto finito. Lee la guía completa incluida en el ZIP.
+Requiere Windows 11 de 64 bits y conexión a internet. Utiliza tu propia clave de OpenRouter con un límite de gasto finito: la pide Configurar.cmd al final de la instalación y se guarda cifrada para tu usuario. La guía completa está en asistente/README.md y asistente/launcher/README.md.
 
 A continuación se conserva el README original de OpenCode, de anomalyco/opencode, con licencia MIT.
 
