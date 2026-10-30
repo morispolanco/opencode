@@ -2,6 +2,10 @@
 
 Esta variante de OpenCode incorpora memoria global y por proyecto y un perfil de asistente en español. Es una versión de prueba; no está certificada para una instalación nueva de Windows.
 
+## Código fuente del asistente (comando `gracian`)
+
+El código fuente completo del asistente de Moris (instalador de Windows, comando `gracian`, conexión con Telegram y el Oráculo manual y arte de prudencia de Baltasar Gracián) está publicado en [`asistente/`](asistente/), con su propia guía en [`asistente/README.md`](asistente/README.md).
+
 Para instalar esta variante, no uses el instalador de opencode.ai ni los comandos del README original que aparecen más abajo. Descarga el ZIP de esta publicación, extráelo y abre asistente/Instalar.cmd:
 https://github.com/morispolanco/opencode/releases/tag/v0.1.0-rc.1
 
