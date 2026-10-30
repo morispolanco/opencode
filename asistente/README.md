@@ -9,6 +9,12 @@ Esta carpeta contiene el código fuente del «Asistente con memoria»: la varian
 - `conexion/gracian/oraculo.json`: los 300 aforismos con lectura actual. Fuente y licencia en `conexion/gracian/LICENCIA.md` (Wikisource, CC BY-SA 4.0).
 - `bin/gracian.cmd`: comando `gracian` para la terminal de Windows.
 
+## Instalación de un solo paso (Windows, recomendada)
+
+Descarga `Instalar-Gracian.cmd` desde la publicación **v0.7.0** (sección Assets) y ejecútalo. Instala el asistente completo y deja registrado el comando `gracian` en el PATH del usuario, sin copiar carpetas ni ajustar rutas a mano. Si faltan Bun 1.4.4 o Git, los instala desde sus sitios oficiales. No incluye ninguna clave: al final indica abrir `Configurar.cmd` para configurar la clave propia de OpenRouter (cifrada con DPAPI). Si algo falla a mitad, deshace lo hecho; si ya estaba instalado, no toca nada.
+
+Verificación del instalador: instalación limpia completa ejecutada y comprobada en Linux x64 (30 de octubre de 2026): motor en el commit fijado, dependencias con lockfile, biblioteca de 300 aforismos, consulta local, comando y PATH con relectura; idempotencia sin cambios al reejecutar; limpieza de intento incompleto; carpeta ajena intacta; deshacer total ante fallo de descarga. La escritura del PATH en Windows usa el mismo patrón ya comprobado en una instalación real. Pendiente una ejecución completa en Windows real.
+
 ## El comando «gracian»
 
 Tras una instalación existente del Asistente con memoria (cualquier conexión 0.4.1 o 0.5):
@@ -23,6 +29,6 @@ Tras una instalación existente del Asistente con memoria (cualquier conexión 0
 
 ## Avisos
 
-- Versión de revisión, no estable. La instalación nueva en Windows aún está por validarse (ver `launcher/README.md`).
+- Versión de prueba, no estable. Instalación limpia comprobada en Linux x64; pendiente una ejecución completa en Windows real (ver `launcher/README.md`).
 - Sin claves ni datos de ninguna persona: las claves se configuran en cada instalación y se guardan cifradas con DPAPI del propio usuario de Windows.
 - El código de OpenCode conserva su licencia MIT (ver `LICENSE` en la raíz del repositorio).
